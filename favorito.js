@@ -2,6 +2,7 @@ const like = document.getElementById('gostei');
 const favorito= document.getElementById("favorito")
 const deslike = document.getElementById('deslike');
 const contador = document.getElementById("contador")
+const div = document.getElementById("div-item");
 const contadorDeslike = document.getElementById("contadorDeslike");
 let count = 0;
 let countDeslike = 0;
@@ -45,15 +46,6 @@ deslike.addEventListener('click', ()=>{
    }
 })
 
-favorito.addEventListener('click', ()=>{
-  
-      if(favorito.getAttribute('fill') === 'currentColor'){
-         favorito.setAttribute('fill', 'yellow')
-      }else{
-         favorito.setAttribute('fill', 'currentColor')
-      }
-   
+favorito.addEventListener('click',()=>{
+   div.classList.add('hidden');
 });
-
-
-

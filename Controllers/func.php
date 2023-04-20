@@ -1,7 +1,7 @@
 <?php
 function conectar() {
    try {
-       $conn = new PDO('mysql:host=localhost; charset=utf8mb4; dbname=dblogin', 'root', '');
+       $conn = new PDO('mysql:host=localhost; charset=utf8mb4; dbname=dblojasaep', 'root', '');
        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    } catch (PDOException $e) {
        echo "banco esta com problema" . $e->getMessage();
@@ -11,23 +11,27 @@ function conectar() {
 }
 function Autenticar($nometabela, $campo1, $campo2) {
    $conn = conectar();
-   $stmt = $conn->prepare("SELECT * FROM $nometabela WHERE email=? AND senha=?");
+   $stmt = $conn->prepare("SELECT * FROM $nometabela WHERE CPF=? AND senha=?");
    $stmt->bindParam(1, $campo1);
    $stmt->bindParam(2, $campo2);
    $stmt->execute();
    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
    if ($usuario) {
-      $id = $usuario['idusuarios'];
+      $id = $usuario['idlogin'];
       session_set_cookie_params(['httponly' => true]);
       session_start();
-      $_SESSION['idusuarios'] = $id;
-      $_SESSION['email'] = $campo1;
+      $_SESSION['idlogin'] = $id;
+      $_SESSION['cpf'] = $campo1;
       $_SESSION['senha'] = $campo2;
-      header('location: home.php');
+      
+      header('location: ../index.php');
+      echo "<script>alert('Logado com Sucesso')</script>";
+      
    } else {
-      unset($_SESSION['email']);
+      unset($_SESSION['cpf']);
       unset($_SESSION['senha']);
-      header('location: index.php');
+      echo "<script>alert('Login incorreto tente novamente')</script>";
+      header('location: ../index.php');
    }
 }
 function inserir($nometabela,$camposTabela,$valores){
